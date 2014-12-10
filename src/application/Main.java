@@ -10,6 +10,7 @@ public class Main {
 		//TODO: xxx
 		//FIXME: aaa
 		//XXX: asd
+		
 		System.out.println("AAA");
 		
 		JFrame frame = new JFrame("FrameDemo");
