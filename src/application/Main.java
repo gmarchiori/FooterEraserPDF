@@ -18,6 +18,7 @@ public class Main {
 		frame.add(new JLabel("Hello, World!"));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		frame.setAlwaysOnTop(true);
 		
 	}
 
