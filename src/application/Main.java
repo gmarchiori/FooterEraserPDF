@@ -3,9 +3,12 @@ package application;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import beans.prova1;
+
 public class Main {
 	
 	/** 
+	 * prova javadoc
 	 * @param args il parametro principale
 	 * @return void
 	 */
@@ -17,6 +20,9 @@ public class Main {
 		//XXX: asd
 		
 		System.out.println("AAA");
+		
+		prova1 p = new prova1();
+		p.setNum(22);
 		
 		JFrame frame = new JFrame("FrameDemo");
 		frame.setSize(500, 500);
