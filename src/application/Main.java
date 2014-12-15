@@ -4,6 +4,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Main {
+	
+	/** 
+	 * @param args il parametro principale
+	 * @return void
+	 */
 
 	public static void main(String[] args) {
 		
