@@ -8,8 +8,6 @@ import beans.prova1;
 public class Main {
 	
 	/** 
-	 * prova
-	 * prova javadoc 
 	 * @param args il parametro principale
 	 * @return void
 	 */
@@ -31,7 +29,7 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setAlwaysOnTop(true);
-		
+		a
 	}
 
 }
