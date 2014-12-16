@@ -30,8 +30,8 @@ public class Main {
 		int toPage;
 		
 		JFrame frame = new JFrame("FooterEraserPDF");
-		final JButton eraseButton = new JButton("Cancella footer");
 		JPanel statusPanel = new JPanel();
+		final JButton eraseButton = new JButton("Cancella footer");
 		final JLabel statusLabel = new JLabel("Footer Eraser PDF");
 		
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
