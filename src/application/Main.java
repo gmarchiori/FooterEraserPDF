@@ -1,36 +1,38 @@
 package application;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import java.io.FileOutputStream;
 
-import beans.Prova1;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 
 public class Main {
 	
-	/** 
-	 * prova javadoc 
-	 * @param args il parametro principale
-	 * @return void
-	 */
-
 	public static void main(String[] args) {
-		
-		//TODO: xxx
-		//FIXME: aaa
-		//XXX: asd
-		
-		System.out.println("AAA");
-		
-		Prova1 p = new Prova1();
-		p.setNum(22);
-		
-		JFrame frame = new JFrame("FrameDemo");
-		frame.setSize(500, 500);
-		frame.add(new JLabel("Hello, World!"));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.setAlwaysOnTop(true);
-		
-	}
+		try{
+			PdfReader pdfReader = new PdfReader("D://ZZZ//test.pdf");
 
+			PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileOutputStream("D://ZZZ//test_MODIFIED.pdf"));
+
+			Image image = Image.getInstance("D://ZZZ/blank.png");
+
+			for(int i = 1; i <= pdfReader.getNumberOfPages(); i++){
+
+				PdfContentByte content = pdfStamper.getOverContent(i);
+
+				image.setAbsolutePosition(275f, 35f);
+
+				content.addImage(image);
+			}
+
+			pdfStamper.close();
+
+			System.out.println("Success!");
+			
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 }
