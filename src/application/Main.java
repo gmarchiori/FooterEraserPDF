@@ -8,6 +8,7 @@ import beans.prova1;
 public class Main {
 	
 	/** 
+	 * prova javadoc
 	 * @param args il parametro principale
 	 * @return void
 	 */
