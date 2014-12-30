@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfContentByte;
@@ -40,14 +39,24 @@ public class GUI {
 		JFrame frame = new JFrame("FooterEraserPDF");
 		//JPanel principale
 		JPanel mainPanel = new JPanel();
-		//JPanel dove sono presenti i parametri da inserire
-		JPanel parametersPanel = new JPanel();
+		//JPanel dove inserisco le pagine da elaborare
+		JPanel pagesPanel = new JPanel();
+		//JPanel dove inserisco la posizione del file di origine e la destinazione del file elaborato
+		JPanel filePanel = new JPanel();
 		
 		//label che tiene traccia dello stato del programma
-		final JLabel statusLabel = new JLabel("Footer Eraser PDF", SwingConstants.CENTER);
-		//campi di inserimento numeri pagina
-		final JTextField fromPageNum = new JTextField(20);
-		final JTextField toPageNum = new JTextField(20);
+		//vengono usati i tag <html> in modo da far andare a capo la label se troppo lunga
+		final JLabel statusLabel = new JLabel("<html>" + "Footer Eraser PDF" +  "</html>", JLabel.CENTER);
+		//campi di inserimento numeri pagina e relative label
+		JLabel fromPageLabel = new JLabel("Start page:", JLabel.CENTER);
+		JLabel toPageLabel = new JLabel("End page:", JLabel.CENTER);
+		final JTextField fromPageField = new JTextField(20);
+		final JTextField toPageField = new JTextField(20);
+		//campi di inserimento percorsi relativi ai file
+		JLabel originFileLabel = new JLabel("Input file:", JLabel.CENTER);
+		JLabel destinationFileLabel = new JLabel("Destination file:", JLabel.CENTER);
+		final JTextField originFileField = new JTextField(20);
+		final JTextField destinationFileField = new JTextField(20);
 		//JButton che avvia l'esecuzione dell'operazione
 		JButton eraseButton = new JButton("Cancella footer");
 		
@@ -62,14 +71,11 @@ public class GUI {
 		statusLabel.setLocation(150, 50);
 		statusLabel.setSize(statusLabel.getPreferredSize());
 		
-//		JTextArea textArea = new JTextArea();
-//		textArea.setEditable(false);
-//		textArea.setLineWrap(true);
-//		textArea.setOpaque(false);
-//		textArea.setBorder(BorderFactory.createEmptyBorder());
-//		add(textArea, BorderLayout.CENTER);
+		//di default agisco tutte le pagine del pdf
+		fromPageField.setText("" + 1);
+		toPageField.setText("" + "end");
 		
-		//dimensioni del pulsante, non attiva con GridLayout
+		//dimensioni del pulsante (funzione inutile con GridLayout)
 //		eraseButton.setBounds(300, 50, 140, 50);
 		
 		eraseButton.addActionListener(new ActionListener() {
@@ -89,25 +95,29 @@ public class GUI {
 					//fermo tutte le operazioni nel caso siano presenti errori, e lo comunico a video
 					try {
 						
-						fromPage = Integer.parseInt(fromPageNum.getText());
-						toPage = Integer.parseInt(toPageNum.getText());
+						//fromPage è inizializzato a 1 di default, ma si aggiorna lo stesso
+						//anche il field è inizializzato a 1 di default
+						fromPage = Integer.parseInt(fromPageField.getText());
+						//se il field contiene la strigna "end" vuol dire che si vuole arrivare fino all'ultima pagina
+						//di default è impostato a "end". In caso fosse diverso, viene aggiornato
+						toPage = toPageField.getText().equals("end") ? toPage : Integer.parseInt(toPageField.getText());
 						
 						if(toPage < fromPage){
 							
-							statusLabel.setText("fromPage can't be greater than toPage");
+							statusLabel.setText("<html>" + "Start can't be greater than end" +  "</html>");
 							
 							break mainTry;
 							
-						} else if(fromPage < 0){
+						} else if(fromPage <= 0){
 							
-							statusLabel.setText("fromPage must be at least 1");
+							statusLabel.setText("<html>" + "Start must be at least 1" +  "</html>");
 							
 							break mainTry;
 							
 							
 						} else if(toPage > pdfReader.getNumberOfPages()){
 							
-							statusLabel.setText("toPage can't be greater than document's max length");
+							statusLabel.setText("<html>" + "End can't be greater than document's max length" +  "</html>");
 							
 							break mainTry;
 							
@@ -117,7 +127,7 @@ public class GUI {
 					} catch(NumberFormatException e) {
 						
 						//nel caso sia presente del testo nei JTextField dei parametri pagine, blocco l'operazione
-						statusLabel.setText("You must insert a number");
+						statusLabel.setText("<html>" + "You must insert a number" +  "</html>");
 						
 						e.printStackTrace();
 						
@@ -143,7 +153,7 @@ public class GUI {
 		
 					pdfStamper.close();
 					
-					statusLabel.setText("Success! " + "Footer deleted from " + fromPage + " to " + toPage);
+					statusLabel.setText("<html>" + "Success! " + "Footer deleted from page " + fromPage + " to page " + toPage +  "</html>");
 					
 				} catch (Exception e) {
 					
@@ -153,20 +163,30 @@ public class GUI {
 			}
 		});
 		
-		//aggiungo i componenti utilizzati come parametri al relativo JPanel
-		parametersPanel.add(fromPageNum);
-		parametersPanel.add(toPageNum);
+		
+		
+		//aggiungo i componenti nel corrispettivo JPanel
+		pagesPanel.add(fromPageLabel);
+		pagesPanel.add(fromPageField);
+		pagesPanel.add(toPageLabel);
+		pagesPanel.add(toPageField);
+		
+		filePanel.add(originFileLabel);
+		filePanel.add(originFileField);
+		filePanel.add(destinationFileLabel);
+		filePanel.add(destinationFileField);
 		
 		//aggiungo i componenti restanti (e eventuali altri JPanel) al JPanel principale
 		mainPanel.add(statusLabel);
 		mainPanel.add(eraseButton);
-		mainPanel.add(parametersPanel);
+		mainPanel.add(pagesPanel);
+		mainPanel.add(filePanel);
 
 		//aggiungo il tutto al JFrame, lo renderizzo e lo visualizzo (tenere in questo ordine le operazioni)
 		frame.add(mainPanel);
 		frame.pack();
 		frame.setVisible(true);
-		
+
 	}
 
 }
