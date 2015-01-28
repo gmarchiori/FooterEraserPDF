@@ -9,7 +9,7 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                GUI gui = new GUI();
+                new GUI();
             }
         });
 		
