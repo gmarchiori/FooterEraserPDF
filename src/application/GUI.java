@@ -81,13 +81,13 @@ public class GUI {
 		eraseButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
+			
 				//blocco try con tutte le operazioni al suo interno
 				mainTry: try {
 					
 					PdfReader pdfReader = new PdfReader(path + fileName);
-		
 					Image image = Image.getInstance("img/" + imgName);
-					
+
 					fromPage = 1;
 					toPage = pdfReader.getNumberOfPages();
 					
@@ -102,53 +102,40 @@ public class GUI {
 						//di default è impostato a "end". In caso fosse diverso, viene aggiornato
 						toPage = toPageField.getText().equals("end") ? toPage : Integer.parseInt(toPageField.getText());
 						
-						if(toPage < fromPage){
-							
+						if (toPage < fromPage) {
 							statusLabel.setText("<html>" + "Start can't be greater than end" +  "</html>");
-							
 							break mainTry;
-							
-						} else if(fromPage <= 0){
-							
+						} else if (fromPage <= 0) {
 							statusLabel.setText("<html>" + "Start must be at least 1" +  "</html>");
-							
 							break mainTry;
-							
-							
-						} else if(toPage > pdfReader.getNumberOfPages()){
-							
+						} else if (toPage > pdfReader.getNumberOfPages()) {
 							statusLabel.setText("<html>" + "End can't be greater than document's max length" +  "</html>");
-							
 							break mainTry;
-							
-							
 						}
 						
-					} catch(NumberFormatException e) {
-						
+					} catch (NumberFormatException e) {
 						//nel caso sia presente del testo nei JTextField dei parametri pagine, blocco l'operazione
 						statusLabel.setText("<html>" + "You must insert a number" +  "</html>");
-						
 						e.printStackTrace();
-						
 						break mainTry;
-						
 					}
 					
 					//directory e stamper vengono definiti qui in modo che, in caso di errori,
 					//non viene creato il percorso/file di destinazione
 					File dir = new File(path + finalPath);
-					dir.mkdir();
 					PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileOutputStream(path + finalPath + fileName));
 					
+					dir.mkdir();
+					
 					//applico l'immagine per la cancellazione del footer
-					for(int i = fromPage; i <= toPage; i++){
+					for (int i = fromPage; i <= toPage; i++) {
 		
 						PdfContentByte content = pdfStamper.getOverContent(i);
 		
 						image.setAbsolutePosition(0f, 20f);
 		
 						content.addImage(image);
+						
 					}
 		
 					pdfStamper.close();
@@ -156,14 +143,11 @@ public class GUI {
 					statusLabel.setText("<html>" + "Success! " + "Footer deleted from page " + fromPage + " to page " + toPage +  "</html>");
 					
 				} catch (Exception e) {
-					
 					e.printStackTrace();
-					
 				}
+			
 			}
 		});
-		
-		
 		
 		//aggiungo i componenti nel corrispettivo JPanel
 		pagesPanel.add(fromPageLabel);
